@@ -1,0 +1,15 @@
+# Ignore macOS system files
+.DS_Store
+
+# Ignore specific JavaScript libraries
+p5play.js
+planck.min.js
+
+# Node modules (if you're using Node.js in the project)
+node_modules/
+
+# Ignore other potential IDE or OS-specific files
+.vscode/
+.idea/
+Thumbs.db
+*.log
