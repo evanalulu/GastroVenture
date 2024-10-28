@@ -13,6 +13,7 @@ function preload() {
     stomachBackground = loadImage('assets/stomach2.png');
     stomachBackground2 = loadImage('assets/stomachBg3.png');
     mazeBackground = loadImage('assets/maze.png');
+    largeIntestineBackground = loadImage('assets/large_intestine.png');
 
     // Enemies
     enemy1Img = loadImage('assets/enemies/FungalMyconid.gif');
@@ -111,6 +112,9 @@ function setup() {
     mazeBg = new Sprite(mazeBackground, -1000, 2000, 'n');
     mazeBg.scale = 1.5;
 
+    largeIntestineBg = new Sprite(largeIntestineBackground, 3000, -2000, 'n');
+    largeIntestineBackground.scale = zoomLevel;
+
     redButton.resize(350, 100);
     gameTitle = new Sprite(redButton, width/2, height/2 - 80, 250, 60, 'k');
     enterButton = new Sprite(pinkButton, width/2, height/2 + 80, 100, 40, 'k');
@@ -138,6 +142,7 @@ function draw() {
     else if (screen == 1) { drawScreen1(); } 
     else if (screen == 2) { drawScreen2(); }
     else if (screen == 3) { drawScreen3(); }
+    else if (screen == 4) { drawScreen4(); }
 
 }
 
@@ -350,6 +355,43 @@ function drawScreen3() {
 
     image(mazeBackground, 0, 0, width, height, viewX, viewY, displayWidth, displayHeight);
     mazePlayer();
+
+    camera.off();
+
+    if (kb.presses('n')) {
+        screen4Assets();
+    }
+}
+
+function screen4Assets() {
+    mazeBg.remove();
+    player.pos = { x: width/2, y: height/2 };
+    upperBoundary.remove();
+    lowerBoundary.remove();
+
+    largeIntestineBg.pos = { x: width/2, y: height/2 };
+
+    let outerBoundaryPts = [
+        [24, 363], [24, -69], [44, -69], [44, -89], [63, -89], [63, -109], [121, -109], [121, -89], [161, -89], [161, -69], [182, -69], [182, -50], [380, -50], [380, -69], [439, -69], 
+        [439, -90], [478, -90], [478, -109], [537, -109], [537, -109], [537, -90], [557, -90], [557, -33], [578, -33], [578, 405], [556, 405], [556, 443], [538, 443], [538, 463], [497, 463], [497, 484], [280, 484], [280, 504], [320, 504], [320, 522], 
+        [338, 522], [338, 641], [300, 641], [300, 601], [280, 601], [280, 582], [241, 582], [241, 562], [200, 562], [200, 544], [181, 544], [181, 524], [161, 524], [161, 444], [182, 444], [181, 444], [181, 427], [201, 427], [201, 406],
+        [238, 406], [238, 383], [438, 383], [438, 365], [438, 48], [418, 48], [418, 69], [161, 69], [161, 49], [121, 49], [121, 363], [101, 363], [101, 386], [43, 386], [43, 363], [24, 363]
+    ];
+    outerBoundary = new Sprite(outerBoundaryPts, 's');
+    outerBoundary.color = 'red';
+    // outerBoundary.color = color(255, 255, 255, 0);
+
+    screen = 4;
+}
+
+function drawScreen4() {
+    camera.on();
+    camera.x = player.x;
+    camera.y = player.y;
+
+    // image(largeIntestineBg, 0, 0, width, height, viewX, viewY, displayWidth, displayHeight);
+    mazePlayer();
+
     console.log(mouse.x, mouse.y);
 
     camera.off();
@@ -487,6 +529,8 @@ function aniSetUp() {
         lSwim: lSwimAni,
         swimIdle: swimIdleAni
 	});
+
+    player.pixelPerfect = true;
 
 }
 
