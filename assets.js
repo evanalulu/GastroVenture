@@ -102,3 +102,55 @@ function preload() {
 
   test = loadImage("assets/test.png");
 }
+
+function resizeImages() {
+  idleAni1.resize(150, 0);
+  idleAni2.resize(150, 0);
+  idleAni3.resize(150, 0);
+  idleAni4.resize(150, 0);
+
+  lwalk1.resize(150, 0);
+  lwalk2.resize(150, 0);
+  lwalk3.resize(150, 0);
+  lwalk4.resize(150, 0);
+  lwalk5.resize(150, 0);
+  lwalk6.resize(150, 0);
+  lwalk7.resize(150, 0);
+  lwalk8.resize(150, 0);
+
+  rwalk1.resize(150, 0);
+  rwalk2.resize(150, 0);
+  rwalk3.resize(150, 0);
+  rwalk4.resize(150, 0);
+  rwalk5.resize(150, 0);
+  rwalk6.resize(150, 0);
+  rwalk7.resize(150, 0);
+  rwalk8.resize(150, 0);
+}
+
+function aniSetUp() {
+  idleAni = loadAnimation(idleAni1, idleAni2, idleAni3, idleAni4);
+  lWalkAni = loadAnimation(lwalk1, lwalk2, lwalk3, lwalk4, lwalk5, lwalk6, lwalk7, lwalk8);
+  rWalkAni = loadAnimation(rwalk1, rwalk2, rwalk3, rwalk4, rwalk5, rwalk6, rwalk7, rwalk8);
+  lJumpAni = loadAnimation(ljump1, ljump2, ljump3, ljump4, ljump5);
+  rJumpAni = loadAnimation(rjump1, rjump2, rjump3, rjump4, rjump5);
+
+  swimIdleAni = loadAnimation(swim_idle2, swim_idle3, swim_idle4, swim_idle5, swim_idle6, swim_idle7);
+  lSwimAni = loadAnimation(lswim1, lswim2, lswim3, lswim4, lswim5, lswim6);
+  rSwimAni = loadAnimation(rswim1, rswim2, rswim3, rswim4, rswim5, rswim6);
+
+  player.anis.frameDelay = 8;
+
+  player.addAnis({
+    lWalk: lWalkAni,
+    rWalk: rWalkAni,
+    lJump: lJumpAni,
+    rJump: rJumpAni,
+    idle: idleAni,
+    rSwim: rSwimAni,
+    lSwim: lSwimAni,
+    swimIdle: swimIdleAni,
+  });
+
+  player.pixelPerfect = true;
+}
