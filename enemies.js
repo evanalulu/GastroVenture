@@ -2,6 +2,7 @@ function enemySetUp() {
   enemies = new Group();
   enemies.w = 10;
   enemies.h = 10;
+  enemies.collider = "s";
 }
 
 function bulletSetUp() {
