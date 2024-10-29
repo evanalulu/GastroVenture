@@ -6,7 +6,7 @@ function movePlayer() {
 
   if (kb.presses("up") && !isJumping) {
     player.vel.y = -6;
-    isJumping = true; // Player is now in the air
+    isJumping = true;
   }
 
   if (kb.pressing("left")) {
@@ -23,7 +23,6 @@ function movePlayer() {
   }
 
   if (player.x > width) player.x = width;
-  // if (player.x < 0) player.x = 0;
   if (player.y > height) player.y = height;
   if (player.y < 0) player.y = 0;
 }
@@ -51,7 +50,6 @@ function swimPlayer() {
   }
 
   if (player.x > 597) player.x = 597;
-  // if (player.x < 0) player.x = 0;
   if (player.y > 510) player.y = 510;
   if (player.y < 108) player.y = 108;
 }
