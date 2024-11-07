@@ -1,8 +1,22 @@
+// HOME SCREEN
 function screen0Assets() {
+  redButton.resize(350, 100);
+
+  gameTitle = new Sprite(redButton, width / 2, height / 2 - 80, 250, 60, "k");
   textFont(forwa);
-  // gameTitle.text = "Journey to the \nCenter of the Digestive Tract"
-  // gameTitle.textOffset.y = -10;
-  enterButton.text = "Start Game!";
+  gameTitle.textSize = 20;
+  gameTitle.text = "Gastro Venture";
+
+  buttonTest.resize(100, 40);
+  enterButton = new Sprite(buttonTest, width / 2, height / 2 + 80, 100, 40, "k");
+  playerImage = new Sprite(width / 2, height / 2, 40, 40);
+
+  playerImage.img = idleAni1;
+  ground = new Sprite(-100, -300, width, 20, "s");
+  platformImg.resize(50, 0);
+
+  // Set viewX and viewY to the middle of the image
+  viewX = (oesophagusBackground.width - width / 2) / 2;
 }
 
 function drawScreen0() {
@@ -10,26 +24,22 @@ function drawScreen0() {
 
   enterButton.layer = 2;
   gameTitle.layer = 1;
-  textAlign(CENTER, CENTER); // Align text to center
-  textSize(13); // Set text size
-  text("Journey to the", gameTitle.x, gameTitle.y - 23);
-  text("Center of the Digestive Tract", gameTitle.x, gameTitle.y);
+
   if (enterButton.mouse.presses()) {
     screen1Assets();
   }
 }
 
+// OESOPHAGUS
 function screen1Assets() {
-  enterButton.x = -1000;
+  enterButton.x = -2100;
   playerImage.x = -2000;
   gameTitle.x = -3000;
 
   // Background Set up
   oesophagusBg.pos = { x: width / 2, y: height / 2 };
 
-  player.x = width / 2;
-  // ground.pos = { x: width/2, y: height - 20 }
-  player.y = height / 2;
+  player = new Sprite(-100, -200);
   player.w = 20;
   player.h = 20;
   player.rotationLock = true;
@@ -46,9 +56,15 @@ function screen1Assets() {
   platforms = new Group();
   platforms.h = 5;
   platforms.w = 30;
-  platforms.color = "blue";
   platforms.collider = "s";
-  screen = 1;
+
+  // Crystals
+  crystals = new Group();
+  crystals.w = 25;
+  crystals.h = 25;
+  crystals.collider = "s";
+
+  alkaline.resize(45, 0);
 
   let platformCount = 10;
   gap = height / platformCount;
@@ -56,8 +72,14 @@ function screen1Assets() {
     num = random(leftWall.x, rightWall.x);
     num2 = floor(random(0, 3));
     new platforms.Sprite(platformImg, num, height - i * gap);
+
+    if (num2 == 0) {
+      new crystals.Sprite(alkaline, num, height - i * gap - 10);
+    }
   }
   player.pos = { x: platforms[platformCount - 2].x, y: platforms[platformCount - 2].y };
+
+  screen = 1;
 }
 
 function drawScreen1() {
@@ -70,19 +92,32 @@ function drawScreen1() {
   // Move player
   movePlayer();
 
+  // Collect alkaline
+  crystals.map((crystal) => {
+    if (player.overlaps(crystal)) {
+      crystal.remove();
+    }
+  });
+
   camera.off();
 
   if (player.y > height - 20) {
+    transitioning = true;
     screen2Assets();
   }
 }
 
+// STOMACH
 function screen2Assets() {
   platforms.remove();
   leftWall.remove();
   rightWall.remove();
   oesophagusBg.remove();
   camera.off();
+
+  crystals.map((crystal) => {
+    crystal.remove();
+  });
 
   stomachBg.pos = { x: width / 2, y: height / 2 };
 
@@ -155,9 +190,13 @@ function screen2Assets() {
   boundary.color = color(255, 255, 255, 0);
   boundary2.color = color(255, 255, 255, 0);
 
+  player.pos = { x: 370, y: -60 };
+  world.gravity.y = 1;
   player.vel.y = 20;
   isFalling = true;
   // player.y = height/2;
+
+  bubble = new Sprite(bubbleImg, player.x, player.y, 50, 50, "n");
 
   enemy1 = new Sprite(enemy1Img, 134, 200, 10, 10);
   enemy2 = new Sprite(enemy2Img, 440, 327, 10, 10);
@@ -168,10 +207,12 @@ function screen2Assets() {
   screen = 2;
 }
 
+// SMALL INTESTINES
 function drawScreen2() {
+  console.log(mouse.x, mouse.y);
   if (isFalling) {
     // Check if player has reached the liquid (y position 108 is the top of the liquid)
-    if (player.y >= 108) {
+    if (player.y > 104) {
       world.gravity.y = 0;
       player.y = 108; // Stop at the liquid surface
       player.vel.y = 0; // Stop downward movement
@@ -182,6 +223,9 @@ function drawScreen2() {
   camera.on();
   camera.x = player.x;
   camera.y = player.y;
+
+  bubble.x = player.x;
+  bubble.y = player.y;
 
   // Calculate display width and height for zooming
   let displayWidth = width / zoomLevel;
@@ -213,13 +257,14 @@ function drawScreen2() {
     player.pos = { x: 350, y: 108 };
   }
 
-  if (kb.presses("n")) {
+  if (player.x < -140 && player.y > 230) {
     screen3Assets();
   }
 
   camera.off();
 }
 
+//
 function screen3Assets() {
   stomachBg.remove();
   boundary.remove();
@@ -264,8 +309,6 @@ function screen3Assets() {
     [195, 168],
     [195, 4],
     [-20, 4],
-    [],
-    [],
   ];
   upperBoundary = new Sprite(upperBoundaryPts, "s");
   upperBoundary.color = color(255, 255, 255, 0);
@@ -308,8 +351,6 @@ function screen3Assets() {
     [244, -13],
     [222, -41],
     [-24, -41],
-    [],
-    [],
   ];
   lowerBoundary = new Sprite(lowerBoundaryPts, "s");
   lowerBoundary.color = color(255, 255, 255, 0);
@@ -318,6 +359,7 @@ function screen3Assets() {
 }
 
 function drawScreen3() {
+  console.log(mouse.x, mouse.y);
   camera.on();
   camera.x = player.x;
   camera.y = player.y;
@@ -327,11 +369,12 @@ function drawScreen3() {
 
   camera.off();
 
-  if (kb.presses("n")) {
+  if (player.x < -27) {
     screen4Assets();
   }
 }
 
+// LARGE INTESTINES
 function screen4Assets() {
   mazeBg.remove();
   player.pos = { x: 68, y: 353 };
@@ -474,7 +517,7 @@ function drawScreen4() {
 
   adjustGravity();
 
-  // if (kb.presses("space")) {
-  //   bulletLaunch(largeIntestineDirection);
-  // }
+  if (kb.presses("space")) {
+    bulletLaunch(largeIntestineDirection);
+  }
 }

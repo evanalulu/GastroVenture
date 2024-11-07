@@ -5,6 +5,9 @@ let viewX = 0;
 let viewY = 0;
 let zoomLevel = 2;
 let largeIntestineDirection = "";
+let transitionAlpha = 0;
+let transitioning = false;
+let fadeIn = true;
 
 /* SETUP RUNS ONCE */
 function setup() {
@@ -22,19 +25,6 @@ function setup() {
 
   largeIntestineBg = new Sprite(largeIntestineBackground, 3000, -2000, "n");
   largeIntestineBackground.scale = zoomLevel;
-
-  redButton.resize(350, 100);
-  gameTitle = new Sprite(redButton, width / 2, height / 2 - 80, 250, 60, "k");
-  enterButton = new Sprite(pinkButton, width / 2, height / 2 + 80, 100, 40, "k");
-  playerImage = new Sprite(width / 2, height / 2, 40, 40);
-
-  playerImage.img = idleAni1;
-  player = new Sprite(-100, -200);
-  ground = new Sprite(-100, -300, width, 20, "s");
-  platformImg.resize(50, 0);
-
-  // Set viewX and viewY to the middle of the image
-  viewX = (oesophagusBackground.width - width / 2) / 2;
 
   waterdropSetUp();
   enemySetUp();
@@ -57,4 +47,29 @@ function draw() {
   } else if (screen == 4) {
     drawScreen4();
   }
+
+  // Transition effect
+  if (transitioning) {
+    // Fade out first
+    if (fadeIn) {
+      transitionAlpha += 5; // Adjust speed of fade
+      if (transitionAlpha >= 255) {
+        fadeIn = false;
+        transitionAlpha = 255;
+        // Change the screen once fade-out is complete
+        screen++;
+      }
+    } else {
+      transitionAlpha -= 5; // Fade back in
+      if (transitionAlpha <= 0) {
+        transitioning = false;
+        fadeIn = true;
+        transitionAlpha = 0;
+      }
+    }
+  }
+
+  // Apply the fade effect
+  fill(0, transitionAlpha);
+  rect(0, 0, width, height); // Overlay a black rectangle to create the fade effect
 }
