@@ -5,9 +5,10 @@ let viewX = 0;
 let viewY = 0;
 let zoomLevel = 2;
 let largeIntestineDirection = "";
-let transitionAlpha = 0;
+let fade = 255;
+let fadeAmount = -100;
 let transitioning = false;
-let fadeIn = true;
+let dialogueActive = false;
 
 /* SETUP RUNS ONCE */
 function setup() {
@@ -26,6 +27,7 @@ function setup() {
   largeIntestineBg = new Sprite(largeIntestineBackground, 3000, -2000, "n");
   largeIntestineBackground.scale = zoomLevel;
 
+  textSetUp();
   waterdropSetUp();
   enemySetUp();
 
@@ -34,10 +36,20 @@ function setup() {
 
 /* DRAW LOOP REPEATS */
 function draw() {
-  allSprites.debug = mouse.pressing();
-
   if (screen == 0) {
     drawScreen0();
+    if (transitioning) {
+      fill(255, 0, 0, fade);
+      noStroke();
+      rect(0, 0, width, height);
+
+      if (fade <= 0) fadeAmount = 5; // Start fading in if fully faded out
+      if (fade >= 255) fadeAmount = -5; // Start fading out if fully opaque
+
+      // transitioning = false;
+
+      fade += fadeAmount; // Adjust fade value
+    }
   } else if (screen == 1) {
     drawScreen1();
   } else if (screen == 2) {
@@ -47,29 +59,4 @@ function draw() {
   } else if (screen == 4) {
     drawScreen4();
   }
-
-  // Transition effect
-  if (transitioning) {
-    // Fade out first
-    if (fadeIn) {
-      transitionAlpha += 5; // Adjust speed of fade
-      if (transitionAlpha >= 255) {
-        fadeIn = false;
-        transitionAlpha = 255;
-        // Change the screen once fade-out is complete
-        screen++;
-      }
-    } else {
-      transitionAlpha -= 5; // Fade back in
-      if (transitionAlpha <= 0) {
-        transitioning = false;
-        fadeIn = true;
-        transitionAlpha = 0;
-      }
-    }
-  }
-
-  // Apply the fade effect
-  fill(0, transitionAlpha);
-  rect(0, 0, width, height); // Overlay a black rectangle to create the fade effect
 }

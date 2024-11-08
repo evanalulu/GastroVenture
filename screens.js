@@ -1,22 +1,21 @@
 // HOME SCREEN
 function screen0Assets() {
-  redButton.resize(350, 100);
+  redButton.resize(300, 80);
 
-  gameTitle = new Sprite(redButton, width / 2, height / 2 - 80, 250, 60, "k");
-  textFont(forwa);
-  gameTitle.textSize = 20;
-  gameTitle.text = "Gastro Venture";
+  gameTitle = new Sprite(redButton, width / 2, height / 2 - 25, 250, 60, "k");
 
   buttonTest.resize(100, 40);
-  enterButton = new Sprite(buttonTest, width / 2, height / 2 + 80, 100, 40, "k");
+  enterButton = new Sprite(pinkButton, width / 2, height / 2 + 45, 100, 40, "k");
   playerImage = new Sprite(width / 2, height / 2, 40, 40);
 
   playerImage.img = idleAni1;
   ground = new Sprite(-100, -300, width, 20, "s");
   platformImg.resize(50, 0);
 
-  // Set viewX and viewY to the middle of the image
   viewX = (oesophagusBackground.width - width / 2) / 2;
+
+  titleText.html("Gastro-Venture");
+  enterText.html("Enter the Mouth!");
 }
 
 function drawScreen0() {
@@ -26,6 +25,7 @@ function drawScreen0() {
   gameTitle.layer = 1;
 
   if (enterButton.mouse.presses()) {
+    transitioning = true;
     screen1Assets();
   }
 }
@@ -35,6 +35,8 @@ function screen1Assets() {
   enterButton.x = -2100;
   playerImage.x = -2000;
   gameTitle.x = -3000;
+  titleText.hide();
+  enterText.hide();
 
   // Background Set up
   oesophagusBg.pos = { x: width / 2, y: height / 2 };
@@ -79,19 +81,42 @@ function screen1Assets() {
   }
   player.pos = { x: platforms[platformCount - 2].x, y: platforms[platformCount - 2].y };
 
+  mapText.html("Oesophagus");
+
+  // Dialogue box set up
+  dialogueBoxImg.resize(width / 1.5, 0);
+  dialogueBox = new Sprite(dialogueBoxImg, width / 2, height / 4 - 100, width / 4, height / 4, "n");
+  textFont(vcr);
+  textSize(15);
+  fill("white");
+  dialogueBox.text = screen1Assets[dialogueIndex];
+
+  camera.y = player.y;
+  dialogueActive = true;
   screen = 1;
 }
 
 function drawScreen1() {
+  if (kb.presses("n")) dialogueActive = false;
+  if (dialogueActive) {
+    if (mouse.presses()) {
+      dialogueIndex += 1;
+    }
+    dialogueBox.text = screen1Dialogues[dialogueIndex];
+    if (dialogueIndex == screen1Dialogues.length - 1) {
+      dialogueIndex = 0;
+      dialogueBox.y = 6000;
+      dialogueActive = false;
+    }
+  } else {
+    movePlayer();
+  }
+
   camera.on();
   camera.y = player.y;
 
   // Display the portion of the image based on the viewX and viewY offsets
   image(oesophagusBackground, 0, 0, width, height, viewX, viewY, displayWidth, displayHeight);
-
-  // Move player
-  movePlayer();
-
   // Collect alkaline
   crystals.map((crystal) => {
     if (player.overlaps(crystal)) {
@@ -99,12 +124,12 @@ function drawScreen1() {
     }
   });
 
-  camera.off();
-
   if (player.y > height - 20) {
     transitioning = true;
     screen2Assets();
   }
+
+  camera.off();
 }
 
 // STOMACH
@@ -113,6 +138,7 @@ function screen2Assets() {
   leftWall.remove();
   rightWall.remove();
   oesophagusBg.remove();
+  crystals.remove();
   camera.off();
 
   crystals.map((crystal) => {
@@ -204,71 +230,91 @@ function screen2Assets() {
 
   bulletSetUp();
 
+  mapText.html("Stomach");
+
+  dialogueActive = true;
+  dialogueBox.pos = { x: 385, y: -5 };
+
   screen = 2;
 }
 
-// SMALL INTESTINES
 function drawScreen2() {
-  console.log(mouse.x, mouse.y);
   if (isFalling) {
     // Check if player has reached the liquid (y position 108 is the top of the liquid)
     if (player.y > 104) {
       world.gravity.y = 0;
       player.y = 108; // Stop at the liquid surface
-      player.vel.y = 0; // Stop downward movement
-      isFalling = false; // Stop falling
+      player.vel.y = 0;
+      isFalling = false;
     }
   }
 
   camera.on();
   camera.x = player.x;
   camera.y = player.y;
-
   bubble.x = player.x;
   bubble.y = player.y;
 
-  // Calculate display width and height for zooming
-  let displayWidth = width / zoomLevel;
-  let displayHeight = height / zoomLevel;
-
-  // Constrain viewX and viewY to stay within the image's boundaries
-  viewX = constrain(viewX, 0, stomachBackground2.width - displayWidth);
-  viewY = constrain(viewY, 0, stomachBackground2.height - displayHeight);
-
-  // Display the portion of the image based on the viewX and viewY offsets
-  image(stomachBackground2, 0, 0, width, height, viewX, viewY, displayWidth, displayHeight);
-
-  // Move player
-  swimPlayer();
-
-  bullets.map((bullet) => {
-    if (bullet.collides(enemy1)) {
-      enemy1.remove();
-      bullet.remove();
-    } else if (bullet.collides(enemy2)) {
-      enemy2.remove();
-      bullet.remove();
-    } else if (bullet.collides(boundary) || bullet.collides(boundary2)) {
-      bullet.remove();
+  if (dialogueActive) {
+    if (!isFalling) {
+      player.vel.x = 0;
+      player.vel.y = 0;
     }
-  });
+    if (mouse.presses()) {
+      dialogueIndex += 1;
+    }
+    dialogueBox.text = screen2Dialogues[dialogueIndex];
+    if (dialogueIndex == screen2Dialogues.length - 1) {
+      dialogueIndex = 0;
+      dialogueBox.y = 6000;
+      dialogueActive = false;
+    }
+  } else {
+    print("else should be running!");
+    // Calculate display width and height for zooming
+    let displayWidth = width / zoomLevel;
+    let displayHeight = height / zoomLevel;
 
-  if (player.collides(enemy1) || player.collides(enemy2)) {
-    player.pos = { x: 350, y: 108 };
+    // Constrain viewX and viewY to stay within the image's boundaries
+    viewX = constrain(viewX, 0, stomachBackground2.width - displayWidth);
+    viewY = constrain(viewY, 0, stomachBackground2.height - displayHeight);
+
+    // Display the portion of the image based on the viewX and viewY offsets
+    image(stomachBackground2, 0, 0, width, height, viewX, viewY, displayWidth, displayHeight);
+
+    // Move player
+    swimPlayer();
+
+    bullets.map((bullet) => {
+      if (bullet.collides(enemy1)) {
+        enemy1.remove();
+        bullet.remove();
+      } else if (bullet.collides(enemy2)) {
+        enemy2.remove();
+        bullet.remove();
+      } else if (bullet.collides(boundary) || bullet.collides(boundary2)) {
+        bullet.remove();
+      }
+    });
+
+    if (player.collides(enemy1) || player.collides(enemy2)) {
+      player.pos = { x: 350, y: 108 };
+    }
+
+    if (player.x < -140 && player.y > 230) {
+      screen3Assets();
+    }
   }
-
-  if (player.x < -140 && player.y > 230) {
-    screen3Assets();
-  }
-
   camera.off();
 }
 
-//
+// SMALL INTESTINES
 function screen3Assets() {
   stomachBg.remove();
   boundary.remove();
   boundary2.remove();
+  enemies.remove();
+  bubble.x = 3000;
 
   mazeBg.pos = { x: width / 2, y: height / 2 };
   player.pos = { x: 125, y: -85 };
@@ -355,22 +401,38 @@ function screen3Assets() {
   lowerBoundary = new Sprite(lowerBoundaryPts, "s");
   lowerBoundary.color = color(255, 255, 255, 0);
 
+  mapText.html("Small Intestine");
+
+  dialogueActive = true;
+  dialogueBox.pos = { x: 116, y: -180 };
+
   screen = 3;
 }
 
 function drawScreen3() {
-  console.log(mouse.x, mouse.y);
   camera.on();
   camera.x = player.x;
   camera.y = player.y;
 
-  image(mazeBackground, 0, 0, width, height, viewX, viewY, displayWidth, displayHeight);
-  mazePlayer();
+  if (dialogueActive) {
+    if (mouse.presses()) {
+      dialogueIndex += 1;
+    }
+    dialogueBox.text = screen3Dialogues[dialogueIndex];
+    if (dialogueIndex == screen3Dialogues.length - 1) {
+      dialogueIndex = 0;
+      dialogueBox.y = 6000;
+      dialogueActive = false;
+    }
+  } else {
+    image(mazeBackground, 0, 0, width, height, viewX, viewY, displayWidth, displayHeight);
+    mazePlayer();
 
-  camera.off();
+    camera.off();
 
-  if (player.x < -27) {
-    screen4Assets();
+    if (player.x < -27) {
+      screen4Assets();
+    }
   }
 }
 
@@ -473,26 +535,45 @@ function screen4Assets() {
   flow9 = new Sprite(flowFx, 347, 423, "n");
 
   spawnWaterDrops(25, 122, 46, 358);
-  spawnEnemies(25, 122, 46, 358);
+  // spawnEnemies(25, 122, 46, 358);
 
   spawnWaterDrops(155, 495, -45, 45);
-  spawnEnemies(155, 495, -45, 45);
+  // spawnEnemies(155, 495, -45, 45);
 
   spawnWaterDrops(462, 578, 48, 392);
-  spawnEnemies(462, 578, 48, 392);
+  // spawnEnemies(462, 578, 48, 392);
 
   spawnWaterDrops(260, 435, 384, 482);
-  spawnEnemies(260, 435, 384, 482);
+  // spawnEnemies(260, 435, 384, 482);
 
-  world.gravity.y = -100;
+  mapText.html("Large Intestine");
+
+  dialogueActive = true;
+  dialogueBox.pos = { x: 79, y: 270 };
+
   screen = 4;
 }
 
 function drawScreen4() {
+  if (dialogueActive) {
+    if (mouse.presses()) {
+      dialogueIndex += 1;
+    }
+    dialogueBox.text = screen4Dialogues[dialogueIndex];
+    if (dialogueIndex == screen4Dialogues.length - 1) {
+      dialogueIndex = 0;
+      dialogueBox.y = 6000;
+      dialogueActive = false;
+      world.gravity.y = -100;
+    }
+  } else {
+    mazePlayer();
+    adjustGravity();
+  }
+
   camera.on();
   camera.x = player.x;
   camera.y = player.y;
-  mazePlayer();
   camera.off();
 
   flow1.rotation = 270;
@@ -515,9 +596,24 @@ function drawScreen4() {
     }
   });
 
-  adjustGravity();
-
-  if (kb.presses("space")) {
-    bulletLaunch(largeIntestineDirection);
+  if (player.y > 620) {
+    screen5Assets();
   }
 }
+
+// RECTUM
+function screen5Assets() {
+  flow1.remove();
+  flow2.remove();
+  flow3.remove();
+  flow4.remove();
+  flow5.remove();
+  flow6.remove();
+  flow8.remove();
+  flow9.remove();
+  boundary.remove();
+  mapText.html("Rectum");
+}
+
+// END SCREEN
+function screen6Assets() {}
