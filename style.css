@@ -1,0 +1,8 @@
+@font-face {
+  font-family: "FFFFORWA";
+  src: url("assets/fonts/FFFFORWA.TTF") format("truetype");
+}
+
+.custom-font {
+  font-family: "FFFFORWA", sans-serif;
+}
