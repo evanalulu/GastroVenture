@@ -752,8 +752,26 @@ function screen6Assets() {
   obstacle2.remove();
   finalBoss.remove();
   rectumBg.remove();
-  background(endBg);
   mapText.html("The End");
 
+  squeezeFx.resize(70, 0);
+  squeezeEffect = new Sprite(squeezeFx, 245, 1171, 70, 70, "n");
+  endText = new Sprite(endFx, width / 2, 1313 - height / 2, "n");
+  ground = new Sprite(width / 2, 1313, width, 2, "s");
+
+  world.gravity.y = 10;
+  player.y = 1192;
+  player.vel.y = -6;
+  player.vel.x = 1;
+
   screen = 6;
+}
+
+function drawScreen6() {
+  console.log(mouse.x, mouse.y);
+  background(endBackground);
+  if (player.collides(ground)) {
+    squeezeEffect.remove();
+    endText.img = endFx2;
+  }
 }
