@@ -1,11 +1,4 @@
-# Ignore macOS system files
-.DS_Store
-
-# Ignore specific JavaScript libraries
-p5play.js
-planck.min.js
-
-# Ignore other potential IDE or OS-specific files
+.DS_Stores
 .vscode/
 .idea/
 Thumbs.db
