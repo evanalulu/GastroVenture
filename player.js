@@ -68,6 +68,8 @@ let isWalking = false;
 function mazePlayer() {
   if (kb.presses("left")) player.changeAni("lWalk");
   if (kb.presses("right")) player.changeAni("rWalk");
+  if (kb.presses("up")) player.changeAni("bWalk");
+  if (kb.presses("down")) player.changeAni("fWalk");
 
   if (kb.pressing("left") || kb.pressing("right") || kb.pressing("up") || kb.pressing("down")) {
     player.vel.x = kb.pressing("left") ? -5 : kb.pressing("right") ? 5 : player.vel.x;
@@ -82,6 +84,7 @@ function mazePlayer() {
   } else {
     player.vel.x = 0;
     player.vel.y = 0;
+    player.changeAni("idle");
 
     if (isWalking) {
       walkWaterSound.stop();
