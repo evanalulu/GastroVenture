@@ -10,6 +10,8 @@ function bulletSetUp() {
   bullets.color = "yellow";
   bullets.y = 25;
   bullets.diameter = 10;
+  bulletImg.resize(15, 0);
+  bullets.img = bulletImg;
 }
 
 function spawnEnemies(minX, maxX, minY, maxY) {

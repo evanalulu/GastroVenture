@@ -816,7 +816,7 @@ function screen6Assets() {
   obstacle2.remove();
   finalBoss.remove();
   rectumBg.remove();
-  mapText.html("The End");
+  mapText.html("");
 
   squeezeFx.resize(70, 0);
   squeezeEffect = new Sprite(squeezeFx, 245, 1171, 70, 70, "n");
@@ -846,7 +846,7 @@ function drawScreen6() {
     endText.img = endFx2;
     player.changeAni("idle");
     dialogueActive = true;
-    dialogueBox.pos = { x: width / 2 - 10, y: 1313 - height / 2 };
+    dialogueBox.pos = { x: width / 2, y: 1313 - height / 2 };
   }
 
   if (dialogueActive) {
