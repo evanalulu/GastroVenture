@@ -20,6 +20,6 @@ body {
 
 canvas {
   border: 4px solid rgb(78, 202, 214);
-  max-width: 100%;
-  height: auto;
+  width: 600px; /* Fixed width */
+  height: 400px; /* Fixed height */
 }
