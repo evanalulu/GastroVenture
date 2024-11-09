@@ -9,7 +9,6 @@ function screen0Assets() {
   playerImage = new Sprite(width / 2, height / 2, 40, 40);
 
   playerImage.img = idleAni1;
-  ground = new Sprite(-100, -300, width, 20, "s");
   platformImg.resize(50, 0);
 
   viewX = (oesophagusBackground.width - width / 2) / 2;
@@ -40,6 +39,8 @@ function screen1Assets() {
 
   // Background Set up
   oesophagusBg.pos = { x: width / 2, y: height / 2 };
+
+  player2 = new Sprite(-20000, 0, 60, 60);
 
   player = new Sprite(-100, -200);
   player.w = 20;
@@ -314,6 +315,8 @@ function screen3Assets() {
   boundary.remove();
   boundary2.remove();
   enemies.remove();
+  enemy1.remove();
+  enemy2.remove();
   bubble.x = 3000;
 
   mazeBg.pos = { x: width / 2, y: height / 2 };
@@ -609,11 +612,148 @@ function screen5Assets() {
   flow4.remove();
   flow5.remove();
   flow6.remove();
+  flow7.remove();
   flow8.remove();
   flow9.remove();
   boundary.remove();
+  waterDrops.remove();
+  largeIntestineBg.remove();
+
+  world.gravity.y = 0;
+  player.vel.x = 0;
+  player.vel.y = 0;
+
+  player.pos = { x: width / 2, y: height / 2 };
+  rectumBg.pos = { x: width / 2, y: height / 2 };
+
+  let boundaryPts = [
+    [-53, -193],
+    [653, -193],
+    [653, 743],
+    [577, 743],
+    [577, 783],
+    [537, 783],
+    [537, 821],
+    [458, 821],
+    [458, 899],
+    [339, 899],
+    [339, 975],
+    [261, 975],
+    [261, 899],
+    [223, 899],
+    [223, 859],
+    [143, 859],
+    [143, 823],
+    [61, 823],
+    [61, 784],
+    [23, 784],
+    [23, 741],
+    [-53, 741],
+    [-53, 193],
+  ];
+  boundary = new Sprite(boundaryPts, "s");
+  boundary.color = color(255, 255, 255, 0);
+
   mapText.html("Rectum");
+
+  toxicBubbleImg.resize(55, 55);
+  obstacle1 = new Sprite(toxicBubbleImg, 590, 290, 40, 40);
+  obstacle1.vel.x = -3;
+  obstacle1.rotationLock = true;
+
+  mucusMonsterImg.resize(65, 65);
+  obstacle2 = new Sprite(mucusMonsterImg, 0, 460, 65, 65);
+  obstacle2.vel.x = 4;
+  obstacle2.rotationLock = true;
+
+  finalBossImg.resize(200, 0);
+  finalBoss = new Sprite(finalBossImg, 590, 670, 50, 50);
+  finalBoss.vel.x = -5;
+  finalBoss.rotationLock = true;
+
+  dialogueActive = true;
+  dialogueBox.pos = { x: width / 2, y: height / 2 + 100 };
+
+  screen = 5;
+}
+
+function drawScreen5() {
+  console.log(mouse.x, mouse.y);
+
+  if (dialogueActive) {
+    if (mouse.presses()) {
+      dialogueIndex += 1;
+    }
+    dialogueBox.text = screen5Dialogues[dialogueIndex];
+    if (dialogueIndex == screen5Dialogues.length - 1) {
+      dialogueIndex = 0;
+      dialogueBox.y = 6000;
+      dialogueActive = false;
+    }
+  } else {
+    mazePlayer();
+  }
+
+  camera.on();
+
+  camera.x = player.x;
+  camera.y = player.y + 150;
+  camera.off();
+
+  obstacle1.mirror.x = true;
+  obstacle2.mirror.x = true;
+
+  obstacle1.vel.y = 0;
+  obstacle2.vel.y = 0;
+
+  if (obstacle1.x < 0) {
+    obstacle1.x = 590;
+  }
+
+  if (obstacle2.x > 590) {
+    obstacle2.x = 0;
+  }
+
+  if (player.y >= 540) {
+    bossActive = true;
+  }
+
+  if (bossActive) {
+    let distance = dist(player.x, player.y, finalBoss.x, finalBoss.y);
+
+    if (distance > 40) {
+      finalBoss.direction = finalBoss.angleTo(player);
+      finalBoss.speed = 5;
+    } else if (distance < 30) {
+      finalBoss.speed = 0;
+    }
+
+    if (kb.pressing("right")) finalBoss.mirror.x = true;
+    else finalBoss.mirror.x = false;
+  } else {
+    if (finalBoss.x < 0) {
+      finalBoss.x = 590;
+    }
+  }
+
+  if (player.collides(obstacle1) || player.collides(obstacle2) || player.collides(finalBoss)) {
+    player.pos = { x: width / 2, y: height / 2 };
+  }
+
+  if (player.y > 960) {
+    screen6Assets();
+  }
 }
 
 // END SCREEN
-function screen6Assets() {}
+function screen6Assets() {
+  boundary.remove();
+  obstacle1.remove();
+  obstacle2.remove();
+  finalBoss.remove();
+  rectumBg.remove();
+  background(endBg);
+  mapText.html("The End");
+
+  screen = 6;
+}
