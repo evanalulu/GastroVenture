@@ -60,6 +60,26 @@ function preload() {
   rwalk7 = loadImage("assets/walk/rwalk7.png");
   rwalk8 = loadImage("assets/walk/rwalk8.png");
 
+  // Forward Walk-imation
+  fwalk1 = loadImage("assets/walk/fwalk1.png");
+  fwalk2 = loadImage("assets/walk/fwalk2.png");
+  fwalk3 = loadImage("assets/walk/fwalk3.png");
+  fwalk4 = loadImage("assets/walk/fwalk4.png");
+  fwalk5 = loadImage("assets/walk/fwalk5.png");
+  fwalk6 = loadImage("assets/walk/fwalk6.png");
+  fwalk7 = loadImage("assets/walk/fwalk7.png");
+  fwalk8 = loadImage("assets/walk/fwalk8.png");
+
+  // Backward Walk-imation
+  bwalk1 = loadImage("assets/walk/bwalk1.png");
+  bwalk2 = loadImage("assets/walk/bwalk2.png");
+  bwalk3 = loadImage("assets/walk/bwalk3.png");
+  bwalk4 = loadImage("assets/walk/bwalk4.png");
+  bwalk5 = loadImage("assets/walk/bwalk5.png");
+  bwalk6 = loadImage("assets/walk/bwalk6.png");
+  bwalk7 = loadImage("assets/walk/bwalk7.png");
+  bwalk8 = loadImage("assets/walk/bwalk8.png");
+
   // Left Jump-imation
   ljump1 = loadImage("assets/jump/ljump1.png");
   ljump2 = loadImage("assets/jump/ljump2.png");
@@ -165,8 +185,12 @@ function resizeImages() {
 
 function aniSetUp() {
   idleAni = loadAnimation(idleAni1, idleAni2, idleAni3, idleAni4);
+
   lWalkAni = loadAnimation(lwalk1, lwalk2, lwalk3, lwalk4, lwalk5, lwalk6, lwalk7, lwalk8);
   rWalkAni = loadAnimation(rwalk1, rwalk2, rwalk3, rwalk4, rwalk5, rwalk6, rwalk7, rwalk8);
+  fWalkAni = loadAnimation(fwalk1, fwalk2, fwalk3, fwalk4, fwalk5, fwalk6, fwalk7, fwalk8);
+  bWalkAni = loadAnimation(bwalk1, bwalk2, bwalk3, bwalk4, bwalk5, bwalk6, bwalk7, bwalk8);
+
   lJumpAni = loadAnimation(ljump1, ljump2, ljump3, ljump4, ljump5);
   rJumpAni = loadAnimation(rjump1, rjump2, rjump3, rjump4, rjump5);
 
@@ -179,6 +203,8 @@ function aniSetUp() {
   player.addAnis({
     lWalk: lWalkAni,
     rWalk: rWalkAni,
+    fWalk: fWalkAni,
+    bWalk: bWalkAni,
     lJump: lJumpAni,
     rJump: rJumpAni,
     idle: idleAni,
