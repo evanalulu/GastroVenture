@@ -1,14 +1,13 @@
 /* PRELOAD LOADS FILES */
 function preload() {
   // Background Images
-  homeBackground = loadImage("assets/homeBg2.png");
-  oesophagusBackground = loadImage("assets/oesophagus.png");
-  stomachBackground = loadImage("assets/stomach2.png");
-  stomachBackground2 = loadImage("assets/stomachBg3.png");
-  mazeBackground = loadImage("assets/maze.png");
-  largeIntestineBackground = loadImage("assets/large_intestine.png");
-  rectumBackground = loadImage("assets/rectum.png");
-  endBackground = loadImage("assets/endBg2.png");
+  homeBackground = loadImage("assets/backgrounds/homeBg2.png");
+  oesophagusBackground = loadImage("assets/backgrounds/oesophagus.png");
+  stomachBackground = loadImage("assets/backgrounds/stomachBg.png");
+  mazeBackground = loadImage("assets/backgrounds/maze.png");
+  largeIntestineBackground = loadImage("assets/backgrounds/large_intestine.png");
+  rectumBackground = loadImage("assets/backgrounds/rectum.png");
+  endBackground = loadImage("assets/backgrounds/endBg2.png");
 
   // Enemies
   enemy1Img = loadImage("assets/enemies/FungalMyconid.gif");
@@ -21,18 +20,15 @@ function preload() {
   mucusMonsterImg = loadImage("assets/enemies/mucusMonster.gif");
   finalBossImg = loadImage("assets/enemies/finalBoss.gif");
 
-  // Allies
-  waterDrop = loadImage("assets/waterDrop.gif");
-
   // Objects
-  platformImg = loadImage("assets/nerve_platform.png");
-  alkaline = loadImage("assets/alkaline.gif");
-  bubbleImg = loadImage("assets/bubble.png");
+  platformImg = loadImage("assets/objects/nerve_platform.png");
+  alkaline = loadImage("assets/objects/alkaline.gif");
+  bubbleImg = loadImage("assets/objects/bubble.png");
+  waterDrop = loadImage("assets/objects/waterDrop.gif");
 
   // UI
   pinkButton = loadImage("assets/UI/pinkButton.png");
   redButton = loadImage("assets/UI/redButton.png");
-  buttonTest = loadImage("assets/buttonTest.png");
   dialogueBoxImg = loadImage("assets/UI/dialogue.png");
 
   // Idle Animation
@@ -111,8 +107,6 @@ function preload() {
   // Fonts
   forwa = loadFont("assets/fonts/FFFFORWA.TTF");
   vcr = loadFont("assets/fonts/VCR_OSD_MONO_1.001.ttf");
-
-  test = loadImage("assets/test.png");
 }
 
 function resizeImages() {
