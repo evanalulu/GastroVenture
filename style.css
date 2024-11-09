@@ -6,3 +6,25 @@
 .custom-font {
   font-family: "FFFFORWA", sans-serif;
 }
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+  background: linear-gradient(180deg, #87ceeb, #f0f8ff);
+  font-family: sans-serif;
+  overflow: hidden;
+}
+
+canvas {
+  border: 4px solid rgb(78, 202, 214);
+  max-width: 100%;
+  height: auto;
+}
+
+/* Custom cursor */
+body {
+  cursor: url(""), auto;
+}
