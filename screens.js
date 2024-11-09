@@ -1,11 +1,20 @@
+let screen;
+let isJumping = false;
+let viewX = 0;
+let viewY = 0;
+let zoomLevel = 2;
+let largeIntestineDirection = "";
+let dialogueActive = false;
+let bossActive = false;
+let soundPlayed = false;
+
 // HOME SCREEN
 function screen0Assets() {
   redButton.resize(300, 80);
 
   gameTitle = new Sprite(redButton, width / 2, height / 2 - 25, 250, 60, "k");
-
-  buttonTest.resize(100, 40);
   enterButton = new Sprite(pinkButton, width / 2, height / 2 + 45, 100, 40, "k");
+
   playerImage = new Sprite(width / 2, height / 2, 40, 40);
 
   playerImage.img = idleAni1;
@@ -15,22 +24,24 @@ function screen0Assets() {
 
   titleText.html("Gastro-Venture");
   enterText.html("Enter the Mouth!");
+
+  lobbySound.play();
+  lobbySound.loop();
+
+  screen = 0;
 }
 
 function drawScreen0() {
   background(homeBackground);
-
-  enterButton.layer = 2;
-  gameTitle.layer = 1;
-
+  screen0Sounds();
   if (enterButton.mouse.presses()) {
-    transitioning = true;
     screen1Assets();
   }
 }
 
 // OESOPHAGUS
 function screen1Assets() {
+  lobbySound.stop();
   enterButton.x = -2100;
   playerImage.x = -2000;
   gameTitle.x = -3000;
@@ -81,6 +92,7 @@ function screen1Assets() {
     }
   }
   player.pos = { x: platforms[platformCount - 2].x, y: platforms[platformCount - 2].y };
+  player.bounciness = -100;
 
   mapText.html("Oesophagus");
 
@@ -94,17 +106,20 @@ function screen1Assets() {
 
   camera.y = player.y;
   dialogueActive = true;
+
+  playBackgroundMusic();
+
   screen = 1;
 }
 
 function drawScreen1() {
-  if (kb.presses("n")) dialogueActive = false;
   if (dialogueActive) {
     if (mouse.presses()) {
+      clickSound.play();
       dialogueIndex += 1;
     }
     dialogueBox.text = screen1Dialogues[dialogueIndex];
-    if (dialogueIndex == screen1Dialogues.length - 1) {
+    if (dialogueIndex == screen1Dialogues.length) {
       dialogueIndex = 0;
       dialogueBox.y = 6000;
       dialogueActive = false;
@@ -116,12 +131,20 @@ function drawScreen1() {
   camera.on();
   camera.y = player.y;
 
-  // Display the portion of the image based on the viewX and viewY offsets
   image(oesophagusBackground, 0, 0, width, height, viewX, viewY, displayWidth, displayHeight);
   // Collect alkaline
   crystals.map((crystal) => {
     if (player.overlaps(crystal)) {
+      crystalSound.setVolume(0.5);
+      crystalSound.play();
       crystal.remove();
+    }
+  });
+
+  platforms.map((platform) => {
+    if (player.collides(platform)) {
+      landSound.setVolume(0.5);
+      landSound.play();
     }
   });
 
@@ -135,6 +158,9 @@ function drawScreen1() {
 
 // STOMACH
 function screen2Assets() {
+  fallSound.setVolume(0.05);
+  fallSound.play();
+
   platforms.remove();
   leftWall.remove();
   rightWall.remove();
@@ -221,7 +247,6 @@ function screen2Assets() {
   world.gravity.y = 1;
   player.vel.y = 20;
   isFalling = true;
-  // player.y = height/2;
 
   bubble = new Sprite(bubbleImg, player.x, player.y, 50, 50, "n");
 
@@ -236,6 +261,10 @@ function screen2Assets() {
   dialogueActive = true;
   dialogueBox.pos = { x: 385, y: -5 };
 
+  bubbleSound.setVolume(0.3);
+  bubbleSound.play();
+  bubbleSound.loop();
+
   screen = 2;
 }
 
@@ -248,6 +277,10 @@ function drawScreen2() {
       player.vel.y = 0;
       isFalling = false;
     }
+  }
+  if (player.y == 108 && !soundPlayed) {
+    splashSound.play();
+    soundPlayed = true;
   }
 
   camera.on();
@@ -262,6 +295,7 @@ function drawScreen2() {
       player.vel.y = 0;
     }
     if (mouse.presses()) {
+      clickSound.play();
       dialogueIndex += 1;
     }
     dialogueBox.text = screen2Dialogues[dialogueIndex];
@@ -271,53 +305,56 @@ function drawScreen2() {
       dialogueActive = false;
     }
   } else {
-    print("else should be running!");
-    // Calculate display width and height for zooming
-    let displayWidth = width / zoomLevel;
-    let displayHeight = height / zoomLevel;
-
-    // Constrain viewX and viewY to stay within the image's boundaries
-    viewX = constrain(viewX, 0, stomachBackground2.width - displayWidth);
-    viewY = constrain(viewY, 0, stomachBackground2.height - displayHeight);
-
-    // Display the portion of the image based on the viewX and viewY offsets
-    image(stomachBackground2, 0, 0, width, height, viewX, viewY, displayWidth, displayHeight);
-
     // Move player
     swimPlayer();
-
-    bullets.map((bullet) => {
-      if (bullet.collides(enemy1)) {
-        enemy1.remove();
-        bullet.remove();
-      } else if (bullet.collides(enemy2)) {
-        enemy2.remove();
-        bullet.remove();
-      } else if (bullet.collides(boundary) || bullet.collides(boundary2)) {
-        bullet.remove();
-      }
-    });
-
-    if (player.collides(enemy1) || player.collides(enemy2)) {
-      player.pos = { x: 350, y: 108 };
-    }
-
-    if (player.x < -140 && player.y > 230) {
-      screen3Assets();
-    }
   }
+
+  let displayWidth = width / zoomLevel;
+  let displayHeight = height / zoomLevel;
+
+  viewX = constrain(viewX, 0, stomachBackground.width - displayWidth);
+  viewY = constrain(viewY, 0, stomachBackground.height - displayHeight);
+
+  image(stomachBackground, 0, 0, width, height, viewX, viewY, displayWidth, displayHeight);
+
+  bullets.map((bullet) => {
+    if (bullet.collides(enemy1)) {
+      enemy1.remove();
+      bullet.remove();
+      hitSound.play();
+    } else if (bullet.collides(enemy2)) {
+      enemy2.remove();
+      bullet.remove();
+      hitSound.play();
+    } else if (bullet.collides(boundary) || bullet.collides(boundary2)) {
+      bullet.remove();
+    }
+  });
+
+  if (player.collides(enemy1) || player.collides(enemy2)) {
+    player.pos = { x: 350, y: 108 };
+    deathSound.play();
+  }
+
+  if (player.x < -140 && player.y > 230) {
+    screen3Assets();
+  }
+
   camera.off();
 }
 
 // SMALL INTESTINES
 function screen3Assets() {
+  transitionSound.play();
   stomachBg.remove();
   boundary.remove();
   boundary2.remove();
   enemies.remove();
   enemy1.remove();
   enemy2.remove();
+  bubbleSound.stop(0);
   bubble.x = 3000;
+  soundPlayed = false;
 
   mazeBg.pos = { x: width / 2, y: height / 2 };
   player.pos = { x: 125, y: -85 };
@@ -408,7 +445,7 @@ function screen3Assets() {
 
   dialogueActive = true;
   dialogueBox.pos = { x: 116, y: -180 };
-
+  walkWaterSound.rate(1.5);
   screen = 3;
 }
 
@@ -419,6 +456,7 @@ function drawScreen3() {
 
   if (dialogueActive) {
     if (mouse.presses()) {
+      clickSound.play();
       dialogueIndex += 1;
     }
     dialogueBox.text = screen3Dialogues[dialogueIndex];
@@ -441,10 +479,13 @@ function drawScreen3() {
 
 // LARGE INTESTINES
 function screen4Assets() {
+  isWalking = false;
+  walkWaterSound.stop();
   mazeBg.remove();
   player.pos = { x: 68, y: 353 };
   upperBoundary.remove();
   lowerBoundary.remove();
+  transitionSound.play();
 
   largeIntestineBg.pos = { x: width / 2, y: height / 2 };
 
@@ -554,12 +595,16 @@ function screen4Assets() {
   dialogueActive = true;
   dialogueBox.pos = { x: 79, y: 270 };
 
+  flowSound.play();
+  flowSound.loop();
+
   screen = 4;
 }
 
 function drawScreen4() {
   if (dialogueActive) {
     if (mouse.presses()) {
+      clickSound.play();
       dialogueIndex += 1;
     }
     dialogueBox.text = screen4Dialogues[dialogueIndex];
@@ -589,6 +634,8 @@ function drawScreen4() {
 
   waterDrops.map((waterDrop) => {
     if (player.collides(waterDrop)) {
+      waterCollectSound.setVolume(0.4);
+      waterCollectSound.play();
       waterDrop.remove();
     }
   });
@@ -606,6 +653,7 @@ function drawScreen4() {
 
 // RECTUM
 function screen5Assets() {
+  walkWaterSound.stop();
   flow1.remove();
   flow2.remove();
   flow3.remove();
@@ -618,6 +666,7 @@ function screen5Assets() {
   boundary.remove();
   waterDrops.remove();
   largeIntestineBg.remove();
+  transitionSound.play();
 
   world.gravity.y = 0;
   player.vel.x = 0;
@@ -674,6 +723,10 @@ function screen5Assets() {
   dialogueActive = true;
   dialogueBox.pos = { x: width / 2, y: height / 2 + 100 };
 
+  bossWalkSound.setVolume(0.7);
+  bossWalkSound.play();
+  bossWalkSound.loop();
+
   screen = 5;
 }
 
@@ -682,6 +735,7 @@ function drawScreen5() {
 
   if (dialogueActive) {
     if (mouse.presses()) {
+      clickSound.play();
       dialogueIndex += 1;
     }
     dialogueBox.text = screen5Dialogues[dialogueIndex];
@@ -714,8 +768,10 @@ function drawScreen5() {
     obstacle2.x = 0;
   }
 
-  if (player.y >= 540) {
+  if (player.y >= 540 && !soundPlayed) {
     bossActive = true;
+    soundPlayed = true;
+    bossRoarSound.play();
   }
 
   if (bossActive) {
@@ -736,8 +792,11 @@ function drawScreen5() {
     }
   }
 
+  screen5Sounds();
+
   if (player.collides(obstacle1) || player.collides(obstacle2) || player.collides(finalBoss)) {
     player.pos = { x: width / 2, y: height / 2 };
+    deathSound.play();
   }
 
   if (player.y > 960) {
@@ -747,6 +806,11 @@ function drawScreen5() {
 
 // END SCREEN
 function screen6Assets() {
+  bossWalkSound.stop();
+  backgroundSound.stop();
+  flowSound.stop();
+  slowHeartBeat.stop();
+  walkWaterSound.stop();
   boundary.remove();
   obstacle1.remove();
   obstacle2.remove();
@@ -756,13 +820,19 @@ function screen6Assets() {
 
   squeezeFx.resize(70, 0);
   squeezeEffect = new Sprite(squeezeFx, 245, 1171, 70, 70, "n");
+  endConfetti = new Sprite(endConfettiImg, 320, 1140, "n");
   endText = new Sprite(endFx, width / 2, 1313 - height / 2, "n");
-  ground = new Sprite(width / 2, 1313, width, 2, "s");
+  ground = new Sprite(width / 2 - 30, 1315, width, 2, "s");
 
   world.gravity.y = 10;
   player.y = 1192;
   player.vel.y = -6;
   player.vel.x = 1;
+
+  fartSound.play();
+  lobbySound.setVolume(0.6);
+  lobbySound.play();
+  lobbySound.loop(0);
 
   screen = 6;
 }
@@ -772,6 +842,23 @@ function drawScreen6() {
   background(endBackground);
   if (player.collides(ground)) {
     squeezeEffect.remove();
+    endConfetti.remove();
     endText.img = endFx2;
+    player.changeAni("idle");
+    dialogueActive = true;
+    dialogueBox.pos = { x: width / 2 - 10, y: 1313 - height / 2 };
+  }
+
+  if (dialogueActive) {
+    if (mouse.presses()) {
+      clickSound.play();
+      dialogueIndex += 1;
+    }
+    dialogueBox.text = screen6Dialogues[dialogueIndex];
+    if (dialogueIndex == screen6Dialogues.length) {
+      dialogueIndex = 0;
+      dialogueBox.y = 6000;
+      dialogueActive = false;
+    }
   }
 }
