@@ -252,9 +252,7 @@ function screen2Assets() {
 
   bubble = new Sprite(bubbleImg, player.x, player.y, 50, 50, "n");
 
-  enemy1 = new Sprite(enemy1Img, 134, 200, 10, 10);
-  enemy2 = new Sprite(enemy2Img, 440, 327, 10, 10);
-  squareSequence();
+  stomachEnemySetUp();
 
   bulletSetUp();
 
@@ -302,7 +300,7 @@ function drawScreen2() {
       dialogueIndex += 1;
     }
     dialogueBox.text = screen2Dialogues[dialogueIndex];
-    if (dialogueIndex == screen2Dialogues.length - 1) {
+    if (dialogueIndex == screen2Dialogues.length) {
       dialogueIndex = 0;
       dialogueBox.y = 6000;
       dialogueActive = false;
@@ -336,6 +334,7 @@ function drawScreen2() {
 
   if (player.collides(enemy1) || player.collides(enemy2)) {
     player.pos = { x: 350, y: 108 };
+    stomachEnemyRewspawn();
     deathSound.play();
   }
 
@@ -467,7 +466,7 @@ function drawScreen3() {
       dialogueIndex += 1;
     }
     dialogueBox.text = screen3Dialogues[dialogueIndex];
-    if (dialogueIndex == screen3Dialogues.length - 1) {
+    if (dialogueIndex == screen3Dialogues.length) {
       dialogueIndex = 0;
       dialogueBox.y = 6000;
       dialogueActive = false;
@@ -857,7 +856,7 @@ function drawScreen6() {
     endText.img = endFx2;
     player.changeAni("idle");
     dialogueActive = true;
-    dialogueBox.pos = { x: width / 2, y: 1313 - height / 2 };
+    dialogueBox.pos = { x: width / 2 + 50, y: 1313 - height / 2 };
   }
 
   if (dialogueActive) {

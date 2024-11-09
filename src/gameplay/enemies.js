@@ -5,6 +5,18 @@ function enemySetUp() {
   enemies.collider = "s";
 }
 
+function stomachEnemySetUp() {
+  enemy1 = new Sprite(enemy1Img, 134, 200, 10, 10);
+  enemy2 = new Sprite(enemy2Img, 440, 327, 10, 10);
+  squareSequence();
+}
+
+function stomachEnemyRewspawn() {
+  enemy1.remove();
+  enemy2.remove();
+  stomachEnemySetUp();
+}
+
 function bulletSetUp() {
   bullets = new Group();
   bullets.color = "yellow";
