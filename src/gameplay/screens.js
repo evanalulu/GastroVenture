@@ -133,6 +133,7 @@ function drawScreen1() {
   camera.y = player.y;
 
   image(oesophagusBackground, 0, 0, width, height, viewX, viewY, displayWidth, displayHeight);
+
   // Collect alkaline
   crystals.map((crystal) => {
     if (player.overlaps(crystal)) {
@@ -266,6 +267,7 @@ function screen2Assets() {
   bubbleSound.play();
   bubbleSound.loop();
   player.changeAni("swimIdle");
+
   screen = 2;
 }
 

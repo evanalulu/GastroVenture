@@ -7,6 +7,15 @@ function screen0Sounds() {
   }
 }
 
+function playBackgroundMusic() {
+  slowHeartBeat.play();
+  slowHeartBeat.loop();
+  slowHeartBeat.setVolume(0.5);
+  backgroundSound.play();
+  backgroundSound.loop();
+  backgroundSound.setVolume(0.5);
+}
+
 let lastBouncePlayTime = 0;
 let lastSlimePlayTime = 10;
 const bounceInterval = 800;

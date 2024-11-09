@@ -26,9 +26,9 @@ function textSetUp() {
 
 // OESOPHAGUS
 let screen1Dialogues = [
-  "Welcome to the esophagus!",
+  "Welcome to the esophagus! \nPress anywhere on the screen to get started.",
   "You’re moving down through peristalsis, a \nwave of muscle contractions pushing \nfood to the stomach.",
-  "Collect alkaline crystals to help survive \nthe acidic stomach ahead. Watch out \nfor obstacles! \nGood luck!",
+  "Move using ARROW KEYS. \nCollect alkaline crystals to help survive \nthe acidic stomach ahead. Watch out \nfor obstacles! \nGood luck!",
 ];
 
 // STOMACH
