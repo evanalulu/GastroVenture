@@ -6,19 +6,19 @@ function textSetUp() {
   mouse.visible = false;
 
   titleText = createDiv("");
-  titleText.position(565, height / 2 + 147);
+  titleText.position(635, height / 2 + 188);
   titleText.style("font-size", "20px");
   titleText.style("color", "#ffffff");
   titleText.addClass("custom-font");
 
   enterText = createDiv("");
-  enterText.position(603, height / 2 + 228);
+  enterText.position(670, height / 2 + 269);
   enterText.style("font-size", "12px");
   enterText.style("color", "#ffffff");
   enterText.addClass("custom-font");
 
   mapText = createDiv("");
-  mapText.position(385, height / 2 + 10);
+  mapText.position(445, height / 2 + 45);
   mapText.style("font-size", "15px");
   mapText.style("color", "#ffffff");
   mapText.addClass("custom-font");
