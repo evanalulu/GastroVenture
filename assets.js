@@ -7,7 +7,8 @@ function preload() {
   mazeBackground = loadImage("assets/backgrounds/maze.png");
   largeIntestineBackground = loadImage("assets/backgrounds/large_intestine.png");
   rectumBackground = loadImage("assets/backgrounds/rectum.png");
-  endBackground = loadImage("assets/backgrounds/endBg2.png");
+  endBackground = loadImage("assets/backgrounds/endBg2.gif");
+  endConfettiImg = loadImage("assets/backgrounds/endConfetti.gif");
 
   // Enemies
   enemy1Img = loadImage("assets/enemies/FungalMyconid.gif");
@@ -30,6 +31,7 @@ function preload() {
   pinkButton = loadImage("assets/UI/pinkButton.png");
   redButton = loadImage("assets/UI/redButton.png");
   dialogueBoxImg = loadImage("assets/UI/dialogue.png");
+  customCursor = loadImage("assets/UI/cursor.png");
 
   // Idle Animation
   idleAni1 = loadImage("assets/idle/idle1.png");
@@ -107,6 +109,32 @@ function preload() {
   // Fonts
   forwa = loadFont("assets/fonts/FFFFORWA.TTF");
   vcr = loadFont("assets/fonts/VCR_OSD_MONO_1.001.ttf");
+
+  // Sounds
+  soundFormats("mp3");
+  lobbySound = loadSound("assets/sound/lobby.mp3");
+  backgroundSound = loadSound("assets/sound/background.mp3");
+  slowHeartBeat = loadSound("assets/sound/slowHeartbeat.mp3");
+  hoverSound = loadSound("assets/sound/hover.mp3");
+  clickSound = loadSound("assets/sound/click.mp3");
+  landSound = loadSound("assets/sound/land.mp3");
+  crystalSound = loadSound("assets/sound/crystal.mp3");
+  splashSound = loadSound("assets/sound/splash.mp3");
+  bubbleSound = loadSound("assets/sound/bubbling.mp3");
+  swimSound = loadSound("assets/sound/swim.mp3");
+  shootSound = loadSound("assets/sound/shoot.mp3");
+  hitSound = loadSound("assets/sound/hit.mp3");
+  deathSound = loadSound("assets/sound/death.mp3");
+  fallSound = loadSound("assets/sound/fall.mp3");
+  transitionSound = loadSound("assets/sound/transition.mp3");
+  walkWaterSound = loadSound("assets/sound/walkWater.mp3");
+  flowSound = loadSound("assets/sound/flow.mp3");
+  waterCollectSound = loadSound("assets/sound/waterCollect.mp3");
+  mobBounceSound = loadSound("assets/sound/mobBounce.mp3");
+  mobSlimeSound = loadSound("assets/sound/mobSlime.mp3");
+  bossRoarSound = loadSound("assets/sound/bossRoar.mp3");
+  bossWalkSound = loadSound("assets/sound/bossWalk.mp3");
+  fartSound = loadSound("assets/sound/fart.mp3");
 }
 
 function resizeImages() {
