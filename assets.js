@@ -8,6 +8,7 @@ function preload() {
   mazeBackground = loadImage("assets/maze.png");
   largeIntestineBackground = loadImage("assets/large_intestine.png");
   rectumBackground = loadImage("assets/rectum.png");
+  endBackground = loadImage("assets/endBg2.png");
 
   // Enemies
   enemy1Img = loadImage("assets/enemies/FungalMyconid.gif");
@@ -100,9 +101,12 @@ function preload() {
   rswim6 = loadImage("assets/swim/rswim6.png");
 
   // FX
-  flowFx = loadImage("assets/flow_fx.gif");
-  flowFx2 = loadImage("assets/flow_fx2.gif");
-  flowFx3 = loadImage("assets/flow_fx3.gif");
+  flowFx = loadImage("assets/fx/flow_fx.gif");
+  flowFx2 = loadImage("assets/fx/flow_fx2.gif");
+  flowFx3 = loadImage("assets/fx/flow_fx3.gif");
+  squeezeFx = loadImage("assets/fx/squeeze.gif");
+  endFx = loadImage("assets/fx/endPop.gif");
+  endFx2 = loadImage("assets/fx/endPop2.png");
 
   // Fonts
   forwa = loadFont("assets/fonts/FFFFORWA.TTF");
