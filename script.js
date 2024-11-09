@@ -9,6 +9,7 @@ let fade = 255;
 let fadeAmount = -100;
 let transitioning = false;
 let dialogueActive = false;
+let bossActive = false;
 
 /* SETUP RUNS ONCE */
 function setup() {
@@ -26,6 +27,9 @@ function setup() {
 
   largeIntestineBg = new Sprite(largeIntestineBackground, 3000, -2000, "n");
   largeIntestineBackground.scale = zoomLevel;
+
+  rectumBg = new Sprite(rectumBackground, -3000, 2000, "n");
+  rectumBg.scale = zoomLevel;
 
   textSetUp();
   waterdropSetUp();
@@ -58,5 +62,16 @@ function draw() {
     drawScreen3();
   } else if (screen == 4) {
     drawScreen4();
+  } else if (screen == 5) {
+    drawScreen5();
+  }
+
+  if (kb.presses("space")) {
+    screen0Assets();
+    screen1Assets();
+    screen2Assets();
+    screen3Assets();
+    screen4Assets();
+    screen5Assets();
   }
 }
