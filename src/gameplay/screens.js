@@ -10,6 +10,8 @@ let soundPlayed = false;
 
 // HOME SCREEN
 function screen0Assets() {
+  world.gravity.y = 10;
+
   redButton.resize(300, 80);
 
   gameTitle = new Sprite(redButton, width / 2, height / 2 - 25, 250, 60, "k");
@@ -48,7 +50,6 @@ function screen1Assets() {
   titleText.hide();
   enterText.hide();
 
-  // Background Set up
   oesophagusBg.pos = { x: width / 2, y: height / 2 };
 
   player2 = new Sprite(-20000, 0, 60, 60);
@@ -63,8 +64,8 @@ function screen1Assets() {
   // Walls of Oesophagus
   leftWall = new Sprite(viewX - 65, height / 2, 5, height * 2, "s");
   rightWall = new Sprite(viewX + 370, height / 2, 5, height * 2, "s");
-  leftWall.color = "brown";
-  rightWall.color = "brown";
+  leftWall.color = (255, 255, 255, 0);
+  rightWall.color = (255, 255, 255, 0);
 
   // Platforms
   platforms = new Group();
@@ -264,7 +265,7 @@ function screen2Assets() {
   bubbleSound.setVolume(0.3);
   bubbleSound.play();
   bubbleSound.loop();
-
+  player.changeAni("swimIdle");
   screen = 2;
 }
 
@@ -358,6 +359,8 @@ function screen3Assets() {
 
   mazeBg.pos = { x: width / 2, y: height / 2 };
   player.pos = { x: 125, y: -85 };
+  player.vel.x = 0;
+  player.vel.y = 0;
 
   let upperBoundaryPts = [
     [19, -119],
@@ -446,6 +449,8 @@ function screen3Assets() {
   dialogueActive = true;
   dialogueBox.pos = { x: 116, y: -180 };
   walkWaterSound.rate(1.5);
+  player.changeAni("idle");
+
   screen = 3;
 }
 
@@ -482,11 +487,13 @@ function screen4Assets() {
   isWalking = false;
   walkWaterSound.stop();
   mazeBg.remove();
-  player.pos = { x: 68, y: 353 };
   upperBoundary.remove();
   lowerBoundary.remove();
   transitionSound.play();
 
+  player.pos = { x: 68, y: 353 };
+  player.vel.x = 0;
+  player.vel.y = 0;
   largeIntestineBg.pos = { x: width / 2, y: height / 2 };
 
   let boundaryPts = [
@@ -597,6 +604,7 @@ function screen4Assets() {
 
   flowSound.play();
   flowSound.loop();
+  player.changeAni("idle");
 
   screen = 4;
 }
@@ -671,6 +679,7 @@ function screen5Assets() {
   world.gravity.y = 0;
   player.vel.x = 0;
   player.vel.y = 0;
+  player.changeAni("idle");
 
   player.pos = { x: width / 2, y: height / 2 };
   rectumBg.pos = { x: width / 2, y: height / 2 };
