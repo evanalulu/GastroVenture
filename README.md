@@ -4,9 +4,9 @@
 
 ## Table of Contents
 - [Game Description](#game-description)
+- [Controls](#controls)
 - [Gameplay](#gameplay)
 - [Features](#features)
-- [Controls](#controls)
 - [Installation](#installation)
 - [Credits](#credits)
 - [License](#license)
@@ -18,6 +18,11 @@ In Gastro-Venture, players will:
 - Learn interesting facts about how each part of the digestive system functions.
 
 This game is designed to be both fun and educational, aimed at players of all ages who want to learn about the human body.
+
+## Controls
+- **Arrow Keys**: Move around.
+- **Spacebar**: Shoot (available in the stomach to defend against bacteria).
+- **Click Anywhere**: Advance dialogue when presented.
 
 ## Gameplay
 The game is divided into levels, each representing a different part of the digestive system:
@@ -34,26 +39,22 @@ The game is divided into levels, each representing a different part of the diges
 - **Unique Sound Effects**: Each part of the digestive system has tailored sound effects to enhance immersion.
 - **Final Boss**: Face a boss in the rectum as you make your way to the end!
 
-## Controls
-- **Arrow Keys**: Move around.
-- **Spacebar**: Shoot (available in the stomach to defend against bacteria).
-- **Click Anywhere**: Advance dialogue when presented.
-
 ## Installation
-1. **Clone the repository**:
+1. **Live Host Site**: (https://evanalulu.github.io/GastroVenture/)
+2. **Clone the repository**:
     ```bash
     git clone https://github.com/your-username/Gastro-Venture.git
     ```
-2. **Navigate into the directory**:
+3. **Navigate into the directory**:
     ```bash
     cd Gastro-Venture
     ```
-3. **Open the `index.html` file** in your preferred browser to start the game.
+4. **Open the `index.html` file** in your preferred browser to start the game.
 
 ## Credits
-- **Game Developer**: [Your Name](https://github.com/evanalulu)
-- **Sound Effects**: Free sound effects from [source/credit if applicable].
-- **Sprites and Art**: Custom-made pixel art for immersive gameplay.
+- **Game Developer**: [Evana Pradhan](https://github.com/evanalulu)
+- **Sound Effects**: Free sound effects from Pixabay, Zapsplat.
+- **Sprites and Art**: OpenGameArt, itch.io, ChatGPT 4o
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
