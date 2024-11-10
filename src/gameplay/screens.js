@@ -175,6 +175,8 @@ function screen2Assets() {
   });
 
   stomachBg.pos = { x: width / 2, y: height / 2 };
+  portalImg.resize(50, 0);
+  portal = new Sprite(portalImg, -145, 245, 25, 25, "k");
 
   let boundaryPoints = [
     [-35, 190],
@@ -338,7 +340,9 @@ function drawScreen2() {
     deathSound.play();
   }
 
-  if (player.x < -140 && player.y > 230) {
+  portal.mirror.x = true;
+  // if (player.x < -140 && player.y > 230) {
+  if (player.collides(portal)) {
     screen3Assets();
   }
 
@@ -359,6 +363,7 @@ function screen3Assets() {
   soundPlayed = false;
 
   mazeBg.pos = { x: width / 2, y: height / 2 };
+  portal.pos = { x: -27, y: -21 };
   player.pos = { x: 125, y: -85 };
   player.vel.x = 0;
   player.vel.y = 0;
@@ -477,7 +482,8 @@ function drawScreen3() {
 
     camera.off();
 
-    if (player.x < -27) {
+    portal.mirror.x = true;
+    if (player.collides(portal)) {
       screen4Assets();
     }
   }
@@ -492,6 +498,7 @@ function screen4Assets() {
   lowerBoundary.remove();
   transitionSound.play();
 
+  portal.pos = { x: 320, y: 625 };
   player.pos = { x: 68, y: 353 };
   player.vel.x = 0;
   player.vel.y = 0;
@@ -655,7 +662,8 @@ function drawScreen4() {
     }
   });
 
-  if (player.y > 620) {
+  // if (player.y > 620)
+  if (player.collides(portal)) {
     screen5Assets();
   }
 }
@@ -682,6 +690,7 @@ function screen5Assets() {
   player.vel.y = 0;
   player.changeAni("idle");
 
+  portal.pos = { x: width / 2, y: 955 };
   player.pos = { x: width / 2, y: height / 2 };
   rectumBg.pos = { x: width / 2, y: height / 2 };
 
@@ -809,7 +818,8 @@ function drawScreen5() {
     deathSound.play();
   }
 
-  if (player.y > 960) {
+  // if (player.y > 960)
+  if (player.collides(portal)) {
     screen6Assets();
   }
 }
@@ -826,6 +836,8 @@ function screen6Assets() {
   obstacle2.remove();
   finalBoss.remove();
   rectumBg.remove();
+  portal.remove();
+
   mapText.html("");
 
   squeezeFx.resize(70, 0);
@@ -848,7 +860,6 @@ function screen6Assets() {
 }
 
 function drawScreen6() {
-  console.log(mouse.x, mouse.y);
   background(endBackground);
   if (player.collides(ground)) {
     squeezeEffect.remove();

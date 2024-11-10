@@ -35,7 +35,7 @@ let screen1Dialogues = [
 let screen2Dialogues = [
   "Welcome to the stomach!",
   "Here, powerful acids break down food. \nLuckily, your alkaline crystals have \nturned into alkali-bubbles.",
-  "Beware of enemies—harmful bacteria! \nPress SPACE to shoot and stay safe. Reach the end!",
+  "Beware of enemies, harmful bacteria & pathogens! \nPress SPACE to shoot and stay safe. Reach the end!",
 ];
 
 // SMALL INTESTINES

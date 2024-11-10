@@ -27,6 +27,7 @@ function preload() {
   bubbleImg = loadImage("assets/objects/bubble.png");
   waterDrop = loadImage("assets/objects/waterDrop.gif");
   bulletImg = loadImage("assets/objects/bullet.gif");
+  portalImg = loadImage("assets/objects/portal.gif");
 
   // UI
   pinkButton = loadImage("assets/UI/pinkButton.png");
