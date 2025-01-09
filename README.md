@@ -41,15 +41,16 @@ The game is divided into levels, each representing a different part of the diges
 
 ## Installation
 1. **Live Host Site**: (https://evanalulu.github.io/GastroVenture/)
-2. **Clone the repository**:
+2. **Playthrough**: (https://drive.google.com/file/d/1fuuKq4ppvRP5Xoz0TliUaSpfT2IA3B-9/view?usp=sharing)
+3. **Clone the repository**:
     ```bash
     git clone https://github.com/your-username/Gastro-Venture.git
     ```
-3. **Navigate into the directory**:
+4. **Navigate into the directory**:
     ```bash
     cd Gastro-Venture
     ```
-4. **Open the `index.html` file** in your preferred browser to start the game.
+5. **Open the `index.html` file** in your preferred browser to start the game.
 
 ## Credits
 - **Game Developer**: [Evana Pradhan](https://github.com/evanalulu)
