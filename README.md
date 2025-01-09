@@ -1,6 +1,7 @@
 # Gastro-Venture
 
 **Gastro-Venture** is an educational and adventurous journey through the human digestive system! Play as a tiny explorer as you travel from the mouth to the rectum, facing challenges and learning facts about each part of the digestive tract along the way.
+![gastroventure](https://github.com/user-attachments/assets/69ae42ee-ba4a-4a74-99a5-ccd3588e7ed1)
 
 ## Table of Contents
 - [Game Description](#game-description)
